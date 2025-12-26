@@ -7,9 +7,9 @@ import sys
 print("Starting FULL liveness demo...")
 print("Python:", sys.executable)
 
-# -----------------------------
+
 # Camera setup
-# -----------------------------
+
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 time.sleep(2)
 
@@ -20,9 +20,8 @@ if not cap.isOpened():
 
 cv2.namedWindow("Liveness Demo", cv2.WINDOW_NORMAL)
 
-# -----------------------------
 # MediaPipe FaceMesh
-# -----------------------------
+
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(
     max_num_faces=1,
@@ -31,18 +30,14 @@ face_mesh = mp_face_mesh.FaceMesh(
     min_tracking_confidence=0.5
 )
 
-# -----------------------------
 # Eye + Face landmarks
-# -----------------------------
 LEFT_EYE = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE = [362, 385, 387, 263, 373, 380]
 
 EAR_THRESHOLD = 0.25
 eye_closed = False
 
-# -----------------------------
 # Liveness steps (ORDERED)
-# -----------------------------
 steps = [
     "LOOK_CENTER",
     "BLINK",
@@ -55,9 +50,7 @@ steps = [
 
 current_step = 0
 
-# -----------------------------
 # Helper functions
-# -----------------------------
 def eye_aspect_ratio(landmarks, eye, w, h):
     pts = [(int(landmarks[i].x * w), int(landmarks[i].y * h)) for i in eye]
     A = np.linalg.norm(np.array(pts[1]) - np.array(pts[5]))
@@ -92,9 +85,8 @@ def head_direction(landmarks, w, h):
 
     return "CENTER"
 
-# -----------------------------
+
 # Main loop
-# -----------------------------
 while True:
     ret, frame = cap.read()
     if not ret:
